@@ -1,0 +1,18 @@
+!SESSION 2021-09-26 10:56:45.374 -----------------------------------------------
+eclipse.buildId=Version 1.7.0
+java.version=11.0.10
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2021-09-26 10:57:13.589
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2021-09-26 10:57:13.661
+!MESSAGE Log4j initialized with config file E:\Anand\Embedded_Driver_Dev\MyWorkspace\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2021-09-26 10:57:19.628
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2021-09-26 10:59:23.430
+!MESSAGE Indexed 'stm32f4xx_driver' (5 sources, 3 headers) in 0.853 sec: 419 declarations; 1,662 references; 14 unresolved inclusions; 0 syntax errors; 239 unresolved names (10%)
