@@ -10,9 +10,9 @@
 /*
  * Private function declaration
  */
-void spi_txe_interrupt_handle(SPI_Handle_t *pSPIHandle);
-void spi_rxne_interrupt_handle(SPI_Handle_t *pSPIHandle);
-void spi_ovr_interrupt_handle(SPI_Handle_t *pSPIHandle);
+static void spi_txe_interrupt_handle(SPI_Handle_t *pSPIHandle);
+static void spi_rxne_interrupt_handle(SPI_Handle_t *pSPIHandle);
+static void spi_ovr_interrupt_handle(SPI_Handle_t *pSPIHandle);
 
 
 /*

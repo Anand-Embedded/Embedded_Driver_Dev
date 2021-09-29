@@ -5,17 +5,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Src/007_spi_cmd_request_response_IT.c \
+../Src/009_I2C_MasterReceiveData.c \
 ../Src/syscalls.c \
 ../Src/sysmem.c 
 
 OBJS += \
-./Src/007_spi_cmd_request_response_IT.o \
+./Src/009_I2C_MasterReceiveData.o \
 ./Src/syscalls.o \
 ./Src/sysmem.o 
 
 C_DEPS += \
-./Src/007_spi_cmd_request_response_IT.d \
+./Src/009_I2C_MasterReceiveData.d \
 ./Src/syscalls.d \
 ./Src/sysmem.d 
 

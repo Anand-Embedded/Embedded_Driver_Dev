@@ -1,0 +1,26 @@
+/*
+ * stm32f407xx_i2c_driver.h
+ *
+ *  Created on: Sep 26, 2021
+ *      Author: Admin
+ */
+
+#ifndef INC_STM32F407XX_I2C_DRIVER_H_
+#define INC_STM32F407XX_I2C_DRIVER_H_
+
+
+
+
+/*
+ * Peripheral clock enable or disable API
+ */
+void I2C_PeriClock_Control(I2C_RegDef_t *pSPIx,uint8_t EnorDi);
+
+
+/*
+ * SPIx init and De-init function
+ */
+void I2C_Init(SPI_Handle_t *pSPIHandle);
+void I2C_DeInit(SPI_RegDef_t *pSPIx);
+
+#endif /* INC_STM32F407XX_I2C_DRIVER_H_ */
