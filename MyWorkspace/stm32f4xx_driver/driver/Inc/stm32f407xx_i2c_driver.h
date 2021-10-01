@@ -51,6 +51,10 @@ typedef enum
 #define I2C_ERROR_AF    		5
 #define I2C_ERROR_OVR   		6
 #define I2C_ERROR_TIMEOUT 		7
+#define I2C_SLAVE_REQ_DATA		8
+#define I2C_SLAVE_REC_DATA		9
+
+
 
 /*
  * @I2C_SCLSpeed
@@ -110,6 +114,14 @@ void I2C_MasterReceivedata(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer,uint32_t 
 I2C_State_e I2C_MasterSenddataIT(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer,uint32_t Len, uint8_t SlaveAddress,uint8_t RepeatedStart);
 I2C_State_e I2C_MasterReceivedataIT(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer,uint32_t Len, uint8_t SlaveAddress,uint8_t RepeatedStart);
 
+
+/*
+ * I2C slave send and receive API
+ */
+
+void I2C_SlaveSenddata(I2C_RegDef_t *pI2C,uint8_t data);
+uint8_t I2C_SlaveReceivedata(I2C_RegDef_t *pI2C);
+
 /*
  * I2Cx IRQ configuration API's
  */
@@ -117,6 +129,9 @@ void I2C_IRQConfig(uint8_t IRQNumber,uint8_t EnorDi);
 void I2C_IRQ_PriorityConfig(uint8_t IRQNumber,uint32_t IRQ_Priority);
 void I2C_Event_IRQHandling(I2C_Handle_t *pI2CHandle);
 void I2C_Error_IRQHandling(I2C_Handle_t *pI2CHandle);
+void I2C_SlavePeripheralInterrupt(I2C_RegDef_t *pI2C,uint8_t EnorDi);
+
+
 /*
  * I2C Get Status API's
  */

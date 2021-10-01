@@ -446,7 +446,7 @@ void I2C_Event_IRQHandling(I2C_Handle_t *pI2CHandle)
 		}
 		else //I2C is in slave mode
 		{
-
+			;
 		}
 
 	}
@@ -479,7 +479,11 @@ void I2C_Event_IRQHandling(I2C_Handle_t *pI2CHandle)
 		}
 		else //I2C is in slave mode
 		{
-
+			//Slave Transmitter
+			if(pI2CHandle->pI2Cx->SR2  & ( 1 << I2C_SR2_TRA))
+			{
+				I2C_ApplicationEventCallback(pI2CHandle, I2C_SLAVE_REQ_DATA);
+			}
 		}
 	}
 
@@ -499,7 +503,11 @@ void I2C_Event_IRQHandling(I2C_Handle_t *pI2CHandle)
 		}
 		else //I2C is in Slave mode
 		{
-
+			//Slave Receiver
+			if(! (pI2CHandle->pI2Cx->SR2  & ( 1 << I2C_SR2_TRA)))
+			{
+				I2C_ApplicationEventCallback(pI2CHandle, I2C_SLAVE_REC_DATA);
+			}
 		}
 	}
 
@@ -556,10 +564,18 @@ void I2C_Error_IRQHandling(I2C_Handle_t *pI2CHandle)
 		//Implement the code to notify the application about the error
 		I2C_ApplicationEventCallback(pI2CHandle,I2C_ERROR_AF);
 
-		//inside app event close the TX and generate STOP condition
-		if(pI2CHandle->pI2C_Config.I2C_ACKCtrl == REPEATED_START_DISABLE)
+		//if master then generate stop condition, this means release the bus
+		if(pI2CHandle->pI2Cx->SR2 & ( 1 << I2C_SR2_MSL))
 		{
-			I2C_StopCondition(pI2CHandle->pI2Cx);
+			//inside app event close the TX and generate STOP condition
+			if(pI2CHandle->pI2C_Config.I2C_ACKCtrl == REPEATED_START_DISABLE)
+			{
+				I2C_StopCondition(pI2CHandle->pI2Cx);
+			}
+		}
+		else//slave mode nothing to do
+		{
+
 		}
 	}
 
@@ -713,13 +729,52 @@ void I2C_CloseReception(I2C_Handle_t *pI2CHandle)
 //	}
 }
 
-uint8_t RxCmplt = 0;
+
+/*
+ * I2C slave send and receive API
+ */
+
+void I2C_SlaveSenddata(I2C_RegDef_t *pI2C,uint8_t data)
+{
+	pI2C->DR = data;
+}
+
+
+uint8_t I2C_SlaveReceivedata(I2C_RegDef_t *pI2C)
+{
+	return (uint8_t)pI2C->DR;
+}
+
+
 void I2C_ApplicationEventCallback(I2C_Handle_t *pI2CHandle, uint8_t AppEvent)
 {
+	uint8_t str_data[] = "This message from Anand";
+	static uint8_t command_code = 0;
+	static uint8_t cnt = 0;
 
-	if(AppEvent == I2C_APP_EVT_RX_CMPLT)
+	if(AppEvent == I2C_SLAVE_REQ_DATA)
 	{
-		RxCmplt = 1;
+		if(command_code == 0x51)
+		{
+			I2C_SlaveSenddata(pI2CHandle->pI2Cx, strlen((char *)str_data));
+		}
+		else if(command_code == 0x52)
+		{
+			I2C_SlaveSenddata(pI2CHandle->pI2Cx, str_data[cnt++]);
+		}
+	}
+	else if (AppEvent == I2C_SLAVE_REC_DATA)
+	{
+		command_code = I2C_SlaveReceivedata(pI2CHandle->pI2Cx);
+	}
+	else if(AppEvent == I2C_ERROR_AF)
+	{
+		command_code = 0xff;
+		cnt = 0;
+	}
+	else if(AppEvent == I2C_APP_EVT_STOP)
+	{
+
 	}
 }
 
@@ -898,5 +953,27 @@ void I2C_IRQ_PriorityConfig(uint8_t IRQNumber,uint32_t IRQ_Priority)
 	Pos = IRQNumber % 4;
 
 	*(NVIC_IPRN + index) = ((IRQ_Priority << 4) << (Bit_width * Pos));
+
+}
+
+
+void I2C_SlavePeripheralInterrupt(I2C_RegDef_t *pI2C,uint8_t EnorDi)
+{
+	if(EnorDi == ENABLE)
+	{
+		//Enable the interrupt
+		pI2C->CR2 |= ( 1 << I2C_CR2_ITBUFEN);
+		pI2C->CR2 |= ( 1 << I2C_CR2_ITEVTEN);
+		pI2C->CR2 |= ( 1 << I2C_CR2_ITERREN);
+
+	}
+	else
+	{
+		//Disable the interrupt
+		pI2C->CR2 &= ~( 1 << I2C_CR2_ITBUFEN);
+		pI2C->CR2 &= ~( 1 << I2C_CR2_ITEVTEN);
+		pI2C->CR2 &= ~( 1 << I2C_CR2_ITERREN);
+
+	}
 
 }

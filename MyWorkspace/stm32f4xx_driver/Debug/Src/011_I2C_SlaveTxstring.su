@@ -1,0 +1,7 @@
+011_I2C_SlaveTxstring.c:31:6:delay	16	static
+011_I2C_SlaveTxstring.c:37:5:main	8	static
+011_I2C_SlaveTxstring.c:109:6:I2C1_GpioInit	24	static
+011_I2C_SlaveTxstring.c:131:6:I2C1_Init	8	static
+011_I2C_SlaveTxstring.c:144:6:GPIO_ButtonInit	24	static
+011_I2C_SlaveTxstring.c:162:6:I2C1_EV_IRQHandler	8	static
+011_I2C_SlaveTxstring.c:167:6:I2C1_ER_IRQHandler	8	static

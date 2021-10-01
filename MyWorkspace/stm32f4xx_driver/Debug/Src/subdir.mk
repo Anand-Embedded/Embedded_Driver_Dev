@@ -5,15 +5,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Src/010_I2C_MasterTxRx_IT.c \
+../Src/011_I2C_SlaveTxstring.c \
 ../Src/sysmem.c 
 
 OBJS += \
-./Src/010_I2C_MasterTxRx_IT.o \
+./Src/011_I2C_SlaveTxstring.o \
 ./Src/sysmem.o 
 
 C_DEPS += \
-./Src/010_I2C_MasterTxRx_IT.d \
+./Src/011_I2C_SlaveTxstring.d \
 ./Src/sysmem.d 
 
 
